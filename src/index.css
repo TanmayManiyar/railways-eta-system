@@ -1,0 +1,130 @@
+@import "tailwindcss";
+
+/*
+  Palette: printed operating sheet. A warm whitish-yellow paper ground with a cool
+  blue accent — the contrast between warm ground and cool accent is what stops it
+  reading as a default UI. Signal colours stay semantic: green clear, amber caution,
+  red danger, each pushed warm enough to sit on the paper.
+*/
+@theme {
+  --color-ground:     #FAF7EC;
+  --color-surface:    #FFFDF6;
+  --color-surface2:   #F4EFDC;
+  --color-surface3:   #E9E2C8;
+  --color-ink:        #23261F;
+  --color-inksoft:    #575C4D;
+  --color-inkfaint:   #8A8F7C;
+  --color-rule:       #E3DCC4;
+  --color-rulestrong: #CBC3A6;
+
+  --color-primary:     #2F6B92;
+  --color-primarysoft: #6BA3C7;
+  --color-primarywash: #E7F1F8;
+
+  --color-signal:     #3F7A4B;
+  --color-signalwash: #E7F1E6;
+  --color-caution:    #B0651A;
+  --color-cautionwash:#FAEEDC;
+  --color-danger:     #AE3A2B;
+  --color-dangerwash: #FAE7E2;
+  --color-info:       #2F6B92;
+  --color-infowash:   #E7F1F8;
+
+  --font-sans: "Public Sans", system-ui, sans-serif;
+  --font-cond: "Barlow Condensed", "Public Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--color-ground);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.lbl {
+  font-family: var(--font-cond);
+  text-transform: uppercase;
+  letter-spacing: 0.085em;
+  font-weight: 600;
+}
+
+.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.tnum { font-variant-numeric: tabular-nums; }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--color-surface2); }
+::-webkit-scrollbar-thumb { background: var(--color-rulestrong); }
+::-webkit-scrollbar-thumb:hover { background: var(--color-inkfaint); }
+
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+@keyframes pulsedot {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.3; }
+}
+.pulse { animation: pulsedot 2.4s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse { animation: none; }
+  * { transition-duration: 0.01ms !important; }
+}
+
+/* Range inputs: one definition, used by the network clock and the row scrubbers. */
+.scrub {
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  width: 100%;
+}
+.scrub::-webkit-slider-runnable-track {
+  height: 3px; background: var(--color-surface3);
+}
+.scrub::-webkit-slider-thumb {
+  appearance: none; width: 11px; height: 14px;
+  background: var(--color-primary); margin-top: -5px;
+  border: 0;
+}
+.scrub::-moz-range-track {
+  height: 3px; background: var(--color-surface3);
+}
+.scrub::-moz-range-thumb {
+  width: 11px; height: 14px; border: 0; border-radius: 0;
+  background: var(--color-primary);
+}
+.scrub-sm::-webkit-slider-thumb { width: 9px; height: 12px; margin-top: -4px; background: var(--color-caution); }
+.scrub-sm::-moz-range-thumb { width: 9px; height: 12px; background: var(--color-caution); }
+
+/* Table rhythm: hairline rules, no zebra, numerics aligned. */
+.grid-table { width: 100%; border-collapse: collapse; }
+.grid-table th {
+  font-family: var(--font-cond);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  font-size: 11px;
+  color: var(--color-inkfaint);
+  text-align: left;
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--color-rulestrong);
+  white-space: nowrap;
+  background: var(--color-surface2);
+}
+.grid-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--color-rule);
+  vertical-align: top;
+}
+.grid-table tbody tr:last-child td { border-bottom: none; }
+.grid-table tbody tr:hover { background: var(--color-primarywash); }
+
+/* Sharp corners throughout — this is an operating document, not a consumer app. */
+.panel, .chip, .btn, .field-input, .stat, .card { border-radius: 0; }
+input, select, button, table, th, td { border-radius: 0 !important; }
